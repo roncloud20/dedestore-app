@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Psr\Http\Message\RequestInterface;
 
 class UserController extends Controller
 {
@@ -64,6 +65,20 @@ class UserController extends Controller
             return response()->json($user, 201);
         } catch(\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 500);
+        }
+    }
+
+    function login(Request $request) {
+        if(filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
+            $entry = 'email';
+        } else {
+            $entry = 'phone';
+        }
+        $user = User::where($entry, $request->input('email'))->first();
+        if($user && Hash::check($request->input("password"), $user->password)) {
+            return $user;
+        } else {
+            return ["error" => 'Invalid Login Details'];
         }
     }
 }
