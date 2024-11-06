@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->text("product_desc")->nullable();
-            $table->unsignedDecimal("initial_price", 11, 2);
-            $table->unsignedDecimal("selling_price", 11, 2);
-            $table->unsignedDecimal("quantity", 11, 2)->default(0);
+            $table->decimal("initial_price", 11, 2)->unsigned();
+            $table->decimal("selling_price", 11, 2)->unsigned();
+            $table->decimal("quantity", 11, 2)->default(0);
             $table->string('category');
             $table->string('product_image');
-            $table->unsignedInteger('vendor_id');
+            $table->integer('vendor_id')->unsigned();
             $table->timestamps();
         });
     }
