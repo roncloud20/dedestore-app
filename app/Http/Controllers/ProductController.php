@@ -18,7 +18,7 @@ class ProductController extends Controller
             'selling_price' => 'required|numeric|min:0',
             'quantity' => 'required|numeric|min:0',
             'category' => 'required|string',
-            'product_image' => 'required|image|mimes:jpeg,jpg,png|max:3072',
+            'product_image' => 'required|image|mimes:jpeg,jpg,png|max:5120',
             'vendor_id' => 'required|numeric',
         ],[
             'product_name.required' => 'Product name is required.',
@@ -36,7 +36,7 @@ class ProductController extends Controller
             'product_image.required' => 'Product image is required.',
             'product_image.image' => 'Product image must be an image.',
             'product_image.mimes' => 'Product image must be a jpeg, jpg, or png file.',
-            'product_image.max' => 'Product image size must not exceed 3MB.',
+            'product_image.max' => 'Product image size must not exceed 5MB.',
             'vendor_id.required' => 'Vendor ID is required.',
             'vendor_id.numeric' => 'Vendor ID must be a number.'
         ]);
@@ -61,5 +61,9 @@ class ProductController extends Controller
         } catch(\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 500);
         }
+    }
+
+    function productList() {
+        return Product::all();
     }
 }
